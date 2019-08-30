@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>404</title>
+  <style>
+    html, body {
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      margin-top: 60px;
+    }
+    p {
+      font-size: 30px;
+      margin-top: 20px;
+    }
+    a {
+      font-size: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      color: skyblue;
+      border-bottom: 2px solid skyblue;
+    }
+    a:hover {
+      color: #1a66ca;
+      border-bottom-color: #1a66ca;
+    }
+  </style>
+</head>
+<body>
+  <h1>404 Not Found</h1>
+  <p>(- -):</p>
+  <a id="back" href="javascript: void(0);">返回上一页</a>
+  <script>
+    window.onload = function () {
+      const backBtn = document.querySelector('#back')
+      backBtn.addEventListener('click', goBack)
+
+    }
+    function goBack() {
+      const historyLength = window.history.length || 0
+      if (historyLength || historyLength <=1 ) {
+        window.location.href = '/'
+        return false
+      }
+      window.history.back()
+    }
+  </script>
+</body>
+</html>

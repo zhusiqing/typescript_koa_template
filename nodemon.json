@@ -1,0 +1,25 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "logs",
+    "dist"
+  ],
+  "verbose": true,
+  "exec": "ts-node index.ts",
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  },
+  "watch": [
+    "app",
+    "types",
+    "index.ts",
+    "public/404.html"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "ts,d.ts,js,json",
+  "delay": "2000"
+}
