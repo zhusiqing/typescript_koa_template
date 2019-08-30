@@ -7,6 +7,13 @@ import router from './app/router'
 
 import utils from './app/utils'
 import { loggerInterface } from './app/utils/logger'
+// 项目初始化后，清除输出到控制台信息
+if(utils.isDev) {
+  console.clear()
+}
+const port = 3000
+const address = utils.getIpAdress()
+// 因为中间打印信息会被清除，所以放到前面
 
 // 拓展koa类
 class MyApplication extends Application {
@@ -23,11 +30,11 @@ app.on('error', (err:Error, ctx:Context) => {
   }
 })
 app.use(router.routes()).use(router.allowedMethods())
-const port = 3000
+
 app.listen(port)
-const address = utils.getIpAdress()
-// 清除输出到控制台信息
-console.clear()
-consola.log('server is compiled ...')
-consola.ready(`server is started at http://127.0.0.1:${port}`)
-consola.ready(`server is started at http://${address}:${port}`)
+consola.log('application is running ...')
+
+if (utils.isDev) {
+  consola.ready(`server is started at http://127.0.0.1:${port}`)
+  consola.ready(`server is started at http://${address}:${port}\n\n`)
+}
