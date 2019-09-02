@@ -1,5 +1,7 @@
 import Application, { Context } from 'koa'
 import { loggerInterface } from '../app/utils/logger'
+import { redisInterface } from '../app/utils/redis'
 declare class MyApplication extends Application {
-  logger: loggerInterface
+  $logger: loggerInterface
+  $redis: redisInterface
 }

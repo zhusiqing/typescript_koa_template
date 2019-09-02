@@ -12,12 +12,12 @@ if(utils.isDev) {
   console.clear()
 }
 const port = 3000
-const address = utils.getIpAdress()
 // 因为中间打印信息会被清除，所以放到前面
 
 // 拓展koa类
 class MyApplication extends Application {
-  logger: loggerInterface = utils.logger('app')
+  $logger: loggerInterface = utils.logger('app')
+  $redis = utils.redis
 }
 const app:MyApplication = new MyApplication()
 
@@ -26,7 +26,7 @@ app.on('error', (err:Error, ctx:Context) => {
   if (ctx) {
     ctx.logger.error(`server error ${JSON.stringify(err)}`)
   } else {
-    app.logger.error(`server error ${JSON.stringify(err)}`)
+    app.$logger.error(`server error ${JSON.stringify(err)}`)
   }
 })
 app.use(router.routes()).use(router.allowedMethods())
@@ -35,6 +35,7 @@ app.listen(port)
 consola.log('application is running ...')
 
 if (utils.isDev) {
+  const address = utils.getIpAdress()
   consola.ready(`server is started at http://127.0.0.1:${port}`)
   consola.ready(`server is started at http://${address}:${port}\n\n`)
 }
