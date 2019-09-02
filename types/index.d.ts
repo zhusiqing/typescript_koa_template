@@ -5,3 +5,10 @@ declare class MyApplication extends Application {
   $logger: loggerInterface
   $redis: redisInterface
 }
+
+declare module 'koa' {
+  interface Context {
+    $logger: loggerInterface
+  }
+}
+
