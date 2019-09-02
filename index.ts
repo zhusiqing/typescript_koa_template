@@ -6,7 +6,6 @@ import middleware from './app/middleware';
 import router from './app/router'
 
 import utils from './app/utils'
-// import { loggerInterface } from './app/utils/logger'
 // 项目初始化后，清除输出到控制台信息
 if(utils.isDev) {
   console.clear()
