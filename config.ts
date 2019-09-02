@@ -17,8 +17,14 @@ const config = {
     port: 6379,
     db: 0,
     password: ''
+  },
+  // api接口访问限制
+  apiLimit: {
+    time: 120, // 120秒
+    frequency: 200 // 上面时间内200次
   }
 }
 export const logs = config.logs
 export const redis = config.redis
+export const apiLimit = config.apiLimit
 export default config

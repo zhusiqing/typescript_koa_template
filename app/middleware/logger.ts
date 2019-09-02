@@ -14,7 +14,13 @@ export default async(ctx: Context, next) => {
   if (isApi) {
     const { status, header, message, body } = ctx.response
     const bodyText = JSON.stringify(body)
-    ctx.$logger.info(`【response】${status} message:${message} header:${JSON.stringify(header)}
+    if (ctx.status >= 200 && ctx.status < 400 ) {
+      ctx.$logger.info(`【response】${status} message:${message} header:${JSON.stringify(header)}
 ${bodyText}`)
+    } else {
+      ctx.$logger.error(`【response】${status} message:${message} header:${JSON.stringify(header)}
+      ${bodyText}`)
+    }
+
   }
 }

@@ -2,6 +2,8 @@ import Router from 'koa-router'
 import fs from 'fs'
 import path from 'path'
 
+import { Api } from './controller/index'
+
 let notFoundHtml = ''
 const notFoundHtmlPath = path.join(__dirname, '../public/404.html')
   fs.readFile(notFoundHtmlPath, (err, fileBuffer) => {
@@ -20,13 +22,8 @@ router.get('/', ctx => {
 
 const apiRouter = new Router()
 apiRouter.prefix('/api')
-apiRouter.get('/', ctx => {
-  ctx.body = '/11'
-})
-apiRouter.get('/ip', ctx => {
-  const ip = ctx.ip.replace('::ffff:', '')
-  ctx.body = `ip: ${ip}`
-})
+apiRouter.get('/', Api.index)
+apiRouter.get('/ip', Api.ip)
 router.use(apiRouter.routes(), apiRouter.allowedMethods())
 router.all('*', ctx => {
   ctx.body = notFoundHtml

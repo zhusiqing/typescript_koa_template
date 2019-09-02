@@ -11,12 +11,11 @@ const defaultConfig = {
   serverIp: '127.0.0.1'
 }
 
-function loggerBuilder(source = 'app') {
+function loggerBuilder (source: 'app'|'ctx'|'error' = 'app') {
   const opt = Object.assign({}, defaultConfig, logConfig)
 
   const { env, logLevel, dir, serverIp } = opt
 
-  const isApp:boolean = source === 'app'
   /**
    * 记录日志的方式
    * 指定要记录的日志分类 log
@@ -28,7 +27,7 @@ function loggerBuilder(source = 'app') {
     dev?: any
   }
   const appenders:appendersInterface = {
-    log: {
+    ctx: {
       // 按日期进行输出log
       type: 'dateFile',
       // 路径和文件名
@@ -55,6 +54,20 @@ function loggerBuilder(source = 'app') {
         type: 'pattern',
         pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %c %m%n'
       }
+    },
+    error: {
+      // 按日期进行输出log
+      type: 'dateFile',
+      // 路径和文件名
+      filename: `${dir}/${source}-error`,
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true,
+      serverIp,
+      // 日志输出格式
+      layout: {
+        type: 'pattern',
+        pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %c %m%n'
+      }
     }
   }
   const isDev = env === 'dev' || env === 'local' || env === 'development'
@@ -70,7 +83,6 @@ function loggerBuilder(source = 'app') {
     }
   }
 
-  const appendersType = isApp ? 'app' : 'log'
   /**
    * 指定日志的默认配置项
    * 如果 log4js.getLogger 中没有指定，默认为 appenders中的日志配置项, 数组
@@ -78,7 +90,19 @@ function loggerBuilder(source = 'app') {
    */
   const categories = {
     default: {
-      appenders: Object.keys(appenders).filter(key => (key === appendersType) || (key === 'dev') ),
+      appenders: Object.keys(appenders).filter(key => (key === 'app') || (key === 'dev') ),
+      level: logLevel
+    },
+    app: {
+      appenders: Object.keys(appenders).filter(key => (key === 'app') || (key === 'dev') ),
+      level: logLevel
+    },
+    ctx: {
+      appenders: Object.keys(appenders).filter(key => (key === 'ctx') || (key === 'dev') ),
+      level: logLevel
+    },
+    error: {
+      appenders: Object.keys(appenders).filter(key => (key === 'error') || (key === 'dev') ),
       level: logLevel
     }
   }
@@ -93,16 +117,19 @@ function loggerBuilder(source = 'app') {
   })
 
   // 初始化log4js
-  const log: {[index:string]: any} = getLogger(appendersType)
-
-
+  const log: {[index:string]: any} = getLogger(source)
+  const errorLog: {[index:string]: any} = getLogger('error')
+  errorLog
 
   const logger:loggerInterface = {
     trace: (message:string) => log['trace'](message),
     debug: (message:string) => log['debug'](message),
     info: (message:string) => log['info'](message),
     warn: (message:string) => log['warn'](message),
-    error: (message:string) => log['error'](message),
+    error: (message:string) => {
+      errorLog['error'](message)
+      return log['error'](message)
+    },
     fatal: (message:string) => log['fatal'](message),
     mark: (message:string) => log['mark'](message)
   }

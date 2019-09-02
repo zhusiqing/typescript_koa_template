@@ -1,7 +1,7 @@
 import ioredis, { Redis } from 'ioredis'
 import { redis as redisConfig } from '../../config'
 
-const redis = new ioredis({
+const redis: Redis = new ioredis({
   host: redisConfig.host,
   port: redisConfig.port,
   db: redisConfig.db,
