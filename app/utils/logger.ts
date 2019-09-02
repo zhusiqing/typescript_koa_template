@@ -1,9 +1,7 @@
 import { configure, getLogger } from 'log4js'
 import path from 'path'
 
-import config from '../../config'
-
-const logConfig = config.logs
+import { logs as logConfig } from '../../config'
 
 // 默认配置
 const defaultConfig = {
@@ -72,17 +70,18 @@ function loggerBuilder(source = 'app') {
     }
   }
 
+  const appendersType = isApp ? 'app' : 'log'
   /**
-     * 指定日志的默认配置项
-     * 如果 log4js.getLogger 中没有指定，默认为 appenders中的日志配置项, 数组
-     * 指定日志的记录内容显示 某级别 及 某级别 以上级别的信息
-     */
-    const categories = {
-      default: {
-        appenders: Object.keys(appenders),
-        level: logLevel
-      }
+   * 指定日志的默认配置项
+   * 如果 log4js.getLogger 中没有指定，默认为 appenders中的日志配置项, 数组
+   * 指定日志的记录内容显示 某级别 及 某级别 以上级别的信息
+   */
+  const categories = {
+    default: {
+      appenders: Object.keys(appenders).filter(key => (key === appendersType) || (key === 'dev') ),
+      level: logLevel
     }
+  }
 
   // log4js配置
   configure({
@@ -92,9 +91,9 @@ function loggerBuilder(source = 'app') {
     // pm2InstanceVar: 'INSTANCE_ID'
     disableClustering: true
   })
-  const logType = isApp ? 'app' : 'log'
+
   // 初始化log4js
-  const log: {[index:string]: any} = getLogger(logType)
+  const log: {[index:string]: any} = getLogger(appendersType)
 
 
 

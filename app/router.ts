@@ -18,22 +18,18 @@ router.get('/', ctx => {
   ctx.body = 'my application'
 })
 
-router.all('*', ctx => {
-  console.log('111')
-  ctx.body = notFoundHtml
-})
-
 const apiRouter = new Router()
 apiRouter.prefix('/api')
 apiRouter.get('/', ctx => {
   ctx.body = '/11'
 })
 apiRouter.get('/ip', ctx => {
-  const ip = ctx.ip
-  const ips = ctx.ips
-  ctx.body = `ip: ${ip}
-ips: ${ips}`
+  const ip = ctx.ip.replace('::ffff:', '')
+  ctx.body = `ip: ${ip}`
 })
 router.use(apiRouter.routes(), apiRouter.allowedMethods())
+router.all('*', ctx => {
+  ctx.body = notFoundHtml
+})
 
 export default router

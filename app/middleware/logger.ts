@@ -5,8 +5,8 @@ export default async(ctx: Context, next) => {
   ctx.logger = logger('ctx')
   const isApi: boolean = /^\/api/.test(ctx.url)
   if (isApi) {
-    const { url, header, ip, method, querystring } = ctx.request
-
+    const { url, header, method, querystring } = ctx.request
+    const ip = ctx.ip.replace('::ffff:', '')
     ctx.logger.info(`【request】[${method}] ${url} ${querystring} ip:${ip} header:${JSON.stringify(header)}`)
   }
   await next()

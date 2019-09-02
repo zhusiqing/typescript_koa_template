@@ -31,11 +31,12 @@ app.on('error', (err:Error, ctx:Context) => {
 })
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(port)
-consola.log('application is running ...')
-
-if (utils.isDev) {
-  const address = utils.getIpAdress()
-  consola.ready(`server is started at http://127.0.0.1:${port}`)
-  consola.ready(`server is started at http://${address}:${port}\n\n`)
-}
+app.listen(port, () => {
+  app.$logger.info('server is started ...')
+  consola.log('application is running ...')
+  if (utils.isDev) {
+    const address = utils.getIpAdress()
+    consola.ready(`server is started at http://127.0.0.1:${port}`)
+    consola.ready(`server is started at http://${address}:${port}\n\n`)
+  }
+})
