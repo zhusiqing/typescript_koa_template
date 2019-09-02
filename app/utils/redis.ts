@@ -1,3 +1,7 @@
+/**
+ * @name utils/redis
+ * @description redis 连接和配置
+ */
 import ioredis, { Redis } from 'ioredis'
 import { redis as redisConfig } from '../../config'
 

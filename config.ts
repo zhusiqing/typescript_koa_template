@@ -1,3 +1,7 @@
+/**
+ * @name config
+ * @description 配置文件
+ */
 import path from 'path'
 
 const env:string|undefined = process.env.NODE_ENV

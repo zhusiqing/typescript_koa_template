@@ -1,3 +1,7 @@
+/**
+ * @name utils
+ * @description 工具函数聚合
+ */
 import getIpAdress from './getIpAdress'
 import logger from './logger'
 import redis, { redisInterface } from './redis'

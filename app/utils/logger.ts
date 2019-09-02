@@ -1,3 +1,7 @@
+/**
+ * @name utils/logger
+ * @description log4js再封装
+ */
 import { configure, getLogger } from 'log4js'
 import path from 'path'
 

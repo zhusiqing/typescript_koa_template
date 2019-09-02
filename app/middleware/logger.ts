@@ -1,3 +1,7 @@
+/**
+ * @name middleware/logger
+ * @description 请求级别的log日志挂载和处理
+ */
 import { Context } from 'koa';
 import logger from '../utils/logger'
 

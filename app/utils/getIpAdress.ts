@@ -1,3 +1,7 @@
+/**
+ * @name utils/getIpAdress
+ * @description 获取本地开发的局域网ip
+ */
 import os = require('os')
 export default function getIpAdress():string {
   const interfaces = os.networkInterfaces()
