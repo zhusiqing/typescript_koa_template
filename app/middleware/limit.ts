@@ -7,7 +7,9 @@ import { Context } from 'koa'
 import utils from '../utils'
 import { apiLimit } from '../../config'
 export default async (ctx: Context, next) => {
+  // 非api过滤
   if (!/^\/api/.test(ctx.url)) {
+    next()
     return false
   }
   const ip = utils.getIp(ctx.ip)

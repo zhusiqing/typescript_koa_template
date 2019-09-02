@@ -2,7 +2,6 @@
  * @name middleware
  * @description 中间件聚合层
  */
-// import { Context } from 'koa';
 import path from 'path'
 import helmet from 'koa-helmet'
 import koaStatic from 'koa-static'

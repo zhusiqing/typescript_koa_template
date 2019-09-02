@@ -1,4 +1,3 @@
-// import koa from 'koa'
 import Application, { Context } from 'koa'
 import consola from 'consola'
 
